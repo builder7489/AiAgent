@@ -1,3 +1,6 @@
+import os
+from dotenv import load_dotenv
+
 def main():
     print("Hello from aiagent!")
 

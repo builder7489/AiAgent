@@ -18,7 +18,10 @@ except Exception as e:
     sys.exit(1)
 
 # Set verbose option
-opt_verbose = True if sys.argv[2] == '--verbose' else False
+try:
+    opt_verbose = True if sys.argv[2] == '--verbose' else False
+except Exception as e:
+    opt_verbose = False
 
 messages = [
     types.Content(role="user", parts=[types.Part(text=user_prompt)]),
@@ -37,7 +40,7 @@ def main():
     if opt_verbose:
         print(f"User prompt: {user_prompt}")
         print(f"Prompt tokens: {prompt_tokens}")
-        print(f"Response tokens: {response_tokens}")
+        print(f"Response tokens: {response_tokens}\n")
 
     # Generate content and print metadata
     print(f"{response.text}")

@@ -2,6 +2,7 @@ import os
 import sys
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 
 # Load and prepare API key for use
 load_dotenv()
@@ -12,15 +13,19 @@ client = genai.Client(api_key=api_key)
 
 # Get contents from a command line argument
 try:
-    cli_argument = str(sys.argv[1])
+    user_prompt = str(sys.argv[1])
 except Exception as e:
     print(f"Error no argument found")
     sys.exit(1)
 
+messages = [
+    types.Content(role="user", parts=[types.Part(text=user_prompt)]),
+]
+
 # Prepare content generation response
 response = client.models.generate_content(
     model='gemini-2.0-flash-001', 
-    contents=cli_argument
+    contents=messages,
 ) 
 
 def main():

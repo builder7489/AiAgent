@@ -21,9 +21,12 @@ def main():
     # Get message contents from a command line argument
     parser = argparse.ArgumentParser(description="Chatbot")
     parser.add_argument("user_prompt", type=str, help="User prompt")
-    args = parser.parse_args()
 
     # Set verbose option
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
+    args = parser.parse_args()
+
+
     '''
     try:
         opt_verbose = True if sys.argv[2] == '--verbose' else False
@@ -51,16 +54,10 @@ def main():
     response_tokens = response.usage_metadata.candidates_token_count
 
     # Print verbose option
-    '''
-    if opt_verbose:
-        print(f"User prompt: {user_prompt}")
+    if args.verbose:
+        print(f"User prompt: {args.user_prompt}")
         print(f"Prompt tokens: {prompt_tokens}")
         print(f"Response tokens: {response_tokens}\n")
-    '''
-
-    # Print token information
-    print(f"Prompt tokens: {prompt_tokens}")
-    print(f"Response tokens: {response_tokens}\n")
     
     # Generate content and print metadata
     print(f"{response.text}")

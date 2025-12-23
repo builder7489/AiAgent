@@ -1,47 +1,70 @@
 import os
-import sys
+#import sys
+import argparse
+
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-# Load and prepare API key for use
-load_dotenv()
-
-api_key = os.environ.get("GEMINI_API_KEY")
-client = genai.Client(api_key=api_key)
-
-# Get message contents from a command line argument
-try:
-    user_prompt = str(sys.argv[1])
-except Exception as e:
-    print(f"Error no argument found")
-    sys.exit(1)
-
-# Set verbose option
-try:
-    opt_verbose = True if sys.argv[2] == '--verbose' else False
-except Exception as e:
-    opt_verbose = False
-
-messages = [
-    types.Content(role="user", parts=[types.Part(text=user_prompt)]),
-]
-# Prepare content generation response
-response = client.models.generate_content(
-    model='gemini-2.0-flash-001', 
-    contents=messages,
-)
-# Set response metadata
-prompt_tokens = response.usage_metadata.prompt_token_count
-response_tokens = response.usage_metadata.candidates_token_count
-
 def main():
+    # Load and prepare API key for use
+    load_dotenv()
+
+    api_key = os.environ.get("GEMINI_API_KEY")
+
+    # Validate api key
+    if not api_key:
+        raise RuntimeError("GEMINI_API_KEY environment variable not set")
+
+    client = genai.Client(api_key=api_key)
+
+    # Get message contents from a command line argument
+    parser = argparse.ArgumentParser(description="Chatbot")
+    parser.add_argument("user_prompt", type=str, help="User prompt")
+    args = parser.parse_args()
+
+    # Set verbose option
+    '''
+    try:
+        opt_verbose = True if sys.argv[2] == '--verbose' else False
+    except Exception as e:
+        opt_verbose = False
+
+    messages = [
+        types.Content(role="user", parts=[types.Part(text=user_prompt)]),
+    ]
+    '''
+    
+    # Prepare content generation response
+    '''
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-001', 
+        contents=messages,
+    )
+    '''
+    response = client.models.generate_content(
+        model='gemini-2.0-flash-001',
+        contents=args.user_prompt,
+    )
+
+    if not response.usage_metadata:
+        raise RuntimeError("Gemini API response is none")
+    
+    # Set response metadata
+    prompt_tokens = response.usage_metadata.prompt_token_count
+    response_tokens = response.usage_metadata.candidates_token_count
+
     # Print verbose option
+    '''
     if opt_verbose:
         print(f"User prompt: {user_prompt}")
         print(f"Prompt tokens: {prompt_tokens}")
         print(f"Response tokens: {response_tokens}\n")
-
+    '''
+    # Print token information
+    print(f"Prompt tokens: {prompt_tokens}")
+    print(f"Response tokens: {response_tokens}\n")
+    
     # Generate content and print metadata
     print(f"{response.text}")
 

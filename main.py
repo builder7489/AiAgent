@@ -30,21 +30,17 @@ def main():
     except Exception as e:
         opt_verbose = False
 
+    '''
+
+    # list containing conversation context
     messages = [
-        types.Content(role="user", parts=[types.Part(text=user_prompt)]),
+        types.Content(role="user", parts=[types.Part(text=args.user_prompt)]),
     ]
-    '''
-    
+
     # Prepare content generation response
-    '''
-    response = client.models.generate_content(
-        model='gemini-2.0-flash-001', 
-        contents=messages,
-    )
-    '''
     response = client.models.generate_content(
         model='gemini-2.0-flash-001',
-        contents=args.user_prompt,
+        contents=messages,
     )
 
     if not response.usage_metadata:
@@ -61,6 +57,7 @@ def main():
         print(f"Prompt tokens: {prompt_tokens}")
         print(f"Response tokens: {response_tokens}\n")
     '''
+
     # Print token information
     print(f"Prompt tokens: {prompt_tokens}")
     print(f"Response tokens: {response_tokens}\n")

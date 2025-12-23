@@ -26,15 +26,6 @@ def main():
     parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
 
-
-    '''
-    try:
-        opt_verbose = True if sys.argv[2] == '--verbose' else False
-    except Exception as e:
-        opt_verbose = False
-
-    '''
-
     # list containing conversation context
     messages = [
         types.Content(role="user", parts=[types.Part(text=args.user_prompt)]),

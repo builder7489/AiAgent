@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from prompts import system_prompt
+from call_function import available_functions
 
 def main():
     # Load and prepare API key for use
@@ -37,7 +38,9 @@ def main():
     response = client.models.generate_content(
         model='gemini-2.0-flash-001',
         contents=messages,
-        config=types.GenerateContentConfig(system_instruction=system_prompt)
+        config=types.GenerateContentConfig(
+            tools=[available_functions], system_instruction=system_prompt
+        )
     )
 
     if not response.usage_metadata:
@@ -53,8 +56,20 @@ def main():
         print(f"Prompt tokens: {prompt_tokens}")
         print(f"Response tokens: {response_tokens}\n")
     
-    # Generate content and print metadata
-    print(f"{response.text}")
+
+    try:
+        # Generate content and print metadata
+        if response.text != None:
+            print(f"{response.text}")
+            return
+        
+        # Print any possible function calls with name, args
+        if response.function_calls != None:
+            for function_call in response.function_calls:
+                print(f"Calling function: {function_call.name}({function_call.args})")
+                
+    except Exception as e:
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
     main()

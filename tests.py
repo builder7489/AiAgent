@@ -1,6 +1,6 @@
 # Importing from subdirectory
 from functions.get_files_info import get_files_info
-from functions.get_files_content import get_files_content
+from functions.get_file_content import get_file_content
 # Testing
 working_dir = "calculator"
 
@@ -20,4 +20,4 @@ for directory in directory_list:
     # print(get_files_info(working_dir, directory))
 
     # Test getting file contents
-    print(get_files_content(working_dir, directory))
+    print(get_file_content(working_dir, directory))

@@ -1,4 +1,4 @@
-from functions.get_files_content import get_files_content
+from functions.get_file_content import get_file_content
 
 # TODO set working directory
 t_working_dir = "calculator"

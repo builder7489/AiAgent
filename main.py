@@ -40,7 +40,7 @@ def main():
         contents=messages,
         config=types.GenerateContentConfig(
             tools=[available_functions], system_instruction=system_prompt
-        )
+        ),
     )
 
     if not response.usage_metadata:
@@ -57,19 +57,15 @@ def main():
         print(f"Response tokens: {response_tokens}\n")
     
 
-    try:
-        # Generate content and print metadata
-        if response.text != None:
-            print(f"{response.text}")
-            return
-        
-        # Print any possible function calls with name, args
-        if response.function_calls != None:
-            for function_call in response.function_calls:
-                print(f"Calling function: {function_call.name}({function_call.args})")
-                
-    except Exception as e:
-        print(f"Error: {e}")
+    # Generate content and print metadata
+    if response.text != None:
+        print(f"{response.text}")
+        return
+    
+    # Print any possible function calls with name, args
+    if response.function_calls != None:
+        for function_call in response.function_calls:
+            print(f"Calling function: {function_call.name}({function_call.args})")
 
 if __name__ == "__main__":
     main()

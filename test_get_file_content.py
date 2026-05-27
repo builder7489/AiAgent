@@ -8,5 +8,5 @@ t_directories = ["main.py", "pkg/calculator.py", "/bin/cat", "pkg/does_not_exist
 
 # TODO build display
 for dir in t_directories:
-    print(get_files_content(t_working_dir, dir))
+    print(get_file_content(t_working_dir, dir))
     print("\n")

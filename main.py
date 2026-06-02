@@ -8,6 +8,7 @@ from google import genai
 from google.genai import types
 from prompts import system_prompt
 from call_function import available_functions
+from call_function import call_function
 
 def main():
     # Load and prepare API key for use
@@ -36,7 +37,7 @@ def main():
 
     # Prepare content generation response
     response = client.models.generate_content(
-        model='gemini-2.0-flash-001',
+        model='gemini-2.5-flash',
         contents=messages,
         config=types.GenerateContentConfig(
             tools=[available_functions], system_instruction=system_prompt
@@ -58,14 +59,31 @@ def main():
     
 
     # Generate content and print metadata
-    if response.text != None:
+    if not response.function_calls and response.text != None:
         print(f"{response.text}")
-        return
+
+    # Track the function results
+    function_results: list = []
     
     # Print any possible function calls with name, args
     if response.function_calls != None:
         for function_call in response.function_calls:
-            print(f"Calling function: {function_call.name}({function_call.args})")
+
+            function_call_result = call_function(function_call, args.verbose)
+
+            if not function_call_result.parts:
+                raise Exception("Empty result...")
+            if function_call_result.parts[0].function_response == None:
+                raise Exception("None ...")
+            if function_call_result.parts[0].function_response.response == None:
+                raise Exception("None ...")        
+            else:
+                function_results.append(function_call_result.parts[0])
+
+                if args.verbose:
+                    print(f"-> {function_call_result.parts[0].function_response.response}")
+        
+            
 
 if __name__ == "__main__":
     main()

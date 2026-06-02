@@ -2,10 +2,10 @@ import os
 from config import MAX_CHARS
 from google.genai import types
 
-def get_file_content(working_dir, file_path):
+def get_file_content(working_directory, file_path):
 
     # Clean the working directory
-    working_directory = os.path.abspath(working_dir)
+    working_directory = os.path.abspath(working_directory)
 
     # Build full absolute path
     target_path = os.path.normpath(os.path.abspath(os.path.join(working_directory, file_path)))

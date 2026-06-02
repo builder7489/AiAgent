@@ -1,4 +1,4 @@
-# AiAgent
+# AI Agent
 
 A command-line AI coding agent built in Python on top of Google's Gemini API. The agent accepts a natural-language prompt, plans a sequence of tool calls, and operates on a sandboxed working directory — listing files, reading source, writing changes, and executing Python scripts to verify its work.
 

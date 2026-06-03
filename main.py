@@ -37,7 +37,7 @@ def main():
     #
     # START MODEL-CALLING LOGIC
     #
-    for _ in range(2):
+    for _ in range(20):
         # List containing function calls
         function_results: list = []
 
@@ -88,14 +88,13 @@ def main():
         # Add list of function calls to messages list contexting
         messages.append(types.Content(role="user", parts=function_results))
 
-        # Find the endpoints of the response loops
         # END model is not request function call and has a final response to the user
         if not response.function_calls and response.text != None:
             print(f"FINAL RESPONSE")
             print(f"{response.text}")
             break
 
-    # ENDPOINT model is requesting more function calls and the loop range has been reached
+    # END model is requesting more function calls and the loop range has been reached
     else:
         print(f"NO CONCLUSION...")
         exit(1)

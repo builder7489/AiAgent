@@ -99,8 +99,8 @@ This is an active project. Current state:
 - ✅ All four tool functions implemented with sandbox enforcement
 - ✅ Tool schemas registered with the Gemini client
 - ✅ Single-turn function-call detection (the agent identifies the tool to call)
-- 🚧 **Agent loop** — executing the requested tool, feeding results back, and iterating until a final response (with a max-iteration safety cap) is the next milestone
-- 🚧 **Tool-result routing** — a dispatcher that maps function-call names to the actual Python implementations
+- ✅ **Agent loop** — executing the requested tool, feeding results back, and iterating until a final response (with a max-iteration safety cap) is the next milestone
+- ✅ **Tool-result routing** — a dispatcher that maps function-call names to the actual Python implementations
 - 🚧 **End-to-end demo** — a worked example showing the agent diagnosing and fixing a bug in `calculator/`
 
 ## Tech stack
